@@ -12,11 +12,13 @@ import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -37,9 +39,12 @@ public class CustomCameraActivity extends AppCompatActivity implements SurfaceHo
     private ImageView mImageView;
     private VideoView mVideoView;
     private Button mRecordButton;
+    private TextView mtextView;
     private boolean isRecording = false;
 
     private String mp4Path = "";
+
+    private Handler uiHandler = new Handler();
 
     public static void startUI(Context context) {
         Intent intent = new Intent(context, CustomCameraActivity.class);
@@ -54,6 +59,7 @@ public class CustomCameraActivity extends AppCompatActivity implements SurfaceHo
         mImageView = findViewById(R.id.iv_img);
         mVideoView = findViewById(R.id.videoview);
         mRecordButton = findViewById(R.id.bt_record);
+        mtextView = findViewById(R.id.bt_remain_time);
 
         mHolder = mSurfaceView.getHolder();
         initCamera();
@@ -192,6 +198,37 @@ public class CustomCameraActivity extends AppCompatActivity implements SurfaceHo
             if(prepareVideoRecorder()) {
                 mRecordButton.setText("暂停");
                 mMediaRecorder.start();
+
+                mtextView.setVisibility(View.VISIBLE);
+
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        long date_start =  System.currentTimeMillis();
+                        long date_end = System.currentTimeMillis();
+                        while (date_end - date_start < 10 * 1000) {
+                            if (!isRecording)
+                                return;
+                            String s = "00:" + String.format("%02d", (int)(10 - (date_end - date_start) / 1000));
+                            Runnable runnable = new Runnable() {
+                                @Override
+                                public void run() {
+                                    mtextView.setText(s);
+                                }
+                            };
+                            uiHandler.post(runnable);
+                            date_end = System.currentTimeMillis();
+                        }
+                        Runnable runnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                record(mRecordButton);
+                            }
+                        };
+                        uiHandler.post(runnable);
+                    }
+                }).start();
             }
         }
         isRecording = !isRecording;
