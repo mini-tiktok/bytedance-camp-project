@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.VideoView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.mini_tiktok.bytedance_camp_project.R;
 
 import java.io.File;
@@ -180,6 +181,8 @@ public class CustomCameraActivity extends AppCompatActivity implements SurfaceHo
             mMediaRecorder.release();
             mMediaRecorder = null;
             mCamera.lock();
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
 
 //            mVideoView.setVisibility(View.VISIBLE);
             mImageView.setVisibility(View.GONE);
