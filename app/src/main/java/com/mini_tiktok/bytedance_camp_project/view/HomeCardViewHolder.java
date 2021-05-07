@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.mini_tiktok.bytedance_camp_project.R;
+import com.mini_tiktok.bytedance_camp_project.activity.VideoActivity;
 import com.mini_tiktok.bytedance_camp_project.data.VideoInfo;
 
 import org.w3c.dom.Text;
@@ -24,6 +25,7 @@ public class HomeCardViewHolder extends RecyclerView.ViewHolder implements View.
     private ImageView mVideoImage;
     private TextView mVideoPlayNum;
     private TextView mVideoDuration;
+    private String videoUrl;
 
     public HomeCardViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -35,6 +37,7 @@ public class HomeCardViewHolder extends RecyclerView.ViewHolder implements View.
     }
 
     public void bind(VideoInfo videoInfo) {
+        videoUrl=videoInfo.getVideoUrl();
         mAuthorName.setText(videoInfo.getUsername());
         mVideoPlayNum.setText(String.valueOf((int)(Math.random()*1000)));
         String videoDuration=String.valueOf((int)(Math.random()*50)+10)+":"+String.valueOf((int)(Math.random()*50)+10);
@@ -48,5 +51,8 @@ public class HomeCardViewHolder extends RecyclerView.ViewHolder implements View.
 
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent(v.getContext(), VideoActivity.class);
+        intent.putExtra("videoUrl", videoUrl);
+        v.getContext().startActivity(intent);
     }
 }

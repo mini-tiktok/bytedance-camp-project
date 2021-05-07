@@ -33,12 +33,14 @@ public class VideoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
+        String videoUrl=getIntent().getStringExtra("videoUrl");
+        System.out.println("play video: "+videoUrl);
         videoView = findViewById(R.id.video_container);
         heart = findViewById(R.id.heart);
         videoPause = findViewById(R.id.imageView);
         videoPause.bringToFront();
         videoView.setMediaController(new MediaController(this));
-        videoView.setVideoURI(Uri.parse("https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4"));
+        videoView.setVideoURI(Uri.parse(videoUrl));
         videoView.requestFocus();
         videoView.start();
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -53,7 +55,7 @@ public class VideoActivity extends AppCompatActivity {
             public void onAnimationUpdate(ValueAnimator animation) {
                 if(animation.getAnimatedFraction() == 1f){
                     if(heart.getVisibility() == View.VISIBLE){
-                        heart.setVisibility(View.GONE);
+                        heart.setVisibility(View.INVISIBLE);
                     }
                 }
             }
@@ -67,7 +69,7 @@ public class VideoActivity extends AppCompatActivity {
                         videoPause.setVisibility(View.VISIBLE);
                     } else {
                         videoView.start();
-                        videoPause.setVisibility(View.GONE);
+                        videoPause.setVisibility(View.INVISIBLE);
                     }
                 }
             }
