@@ -18,8 +18,6 @@ import com.mini_tiktok.bytedance_camp_project.R;
 public class HomeSearchLayout extends LinearLayout {
     private static final String TAG = "SearchLayout";
     private EditText mEditView;
-    private TextView mCancel;
-
     private OnSearchTextChangedListener mListener;
 
     public HomeSearchLayout(Context context) {
@@ -41,7 +39,6 @@ public class HomeSearchLayout extends LinearLayout {
         inflate(getContext(), R.layout.layout_home_search, this);
 
         mEditView = findViewById(R.id.edit);
-        mCancel = findViewById(R.id.cancel);
         ImageView mImageView = findViewById(R.id.image);
 
         mImageView.setImageResource(R.drawable.icon_search);
@@ -54,7 +51,7 @@ public class HomeSearchLayout extends LinearLayout {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.i(TAG, "onTextChanged: " + s);
+//                Log.i(TAG, "onTextChanged: " + s);
             }
 
             @Override
@@ -65,15 +62,6 @@ public class HomeSearchLayout extends LinearLayout {
                 }
             }
         });
-
-        mCancel.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                ((Activity) getContext()).finish();
-
-            }
-        });
-
     }
 
     public void setOnSearchTextChangedListener(OnSearchTextChangedListener listener) {
