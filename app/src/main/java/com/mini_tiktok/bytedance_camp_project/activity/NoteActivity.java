@@ -11,17 +11,22 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.mini_tiktok.bytedance_camp_project.R;
+
+import static android.media.MediaMetadataRetriever.OPTION_CLOSEST_SYNC;
+import static android.media.MediaMetadataRetriever.OPTION_PREVIOUS_SYNC;
 
 
 public class NoteActivity extends AppCompatActivity {
@@ -32,7 +37,10 @@ public class NoteActivity extends AppCompatActivity {
     private MediaMetadataRetriever mMetadataRetriever;
     private VideoView mVideoView;
     private ImageView imageView;
+    private SeekBar seekBar;
+    private boolean isTouch = false;
     private int totalTime = 0;
+    private int currentTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +56,8 @@ public class NoteActivity extends AppCompatActivity {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 totalTime = mVideoView.getDuration();
+                seekBar.setMax(totalTime);
+                Log.i("TAG", "getDuration  " + totalTime);
             }
         });
         mVideoView.setVideoPath(mp4Path);
@@ -62,7 +72,33 @@ public class NoteActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.note_image);
         imageView.setImageBitmap(bitmap);
-        
+
+        seekBar = findViewById(R.id.note_seekbar);
+        Log.i("TAG", "J  " + totalTime);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (isTouch) {
+                    currentTime = progress;
+                    mVideoView.seekTo(currentTime);
+                    Log.i("TAG", "currenttime:  " + currentTime);
+                }
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                isTouch = true;
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                isTouch = false;
+                //获取第一帧图像的bitmap对象 单位是微秒
+                Bitmap bitmap = mMetadataRetriever.getFrameAtTime(currentTime * 1000 ,OPTION_CLOSEST_SYNC);
+                Log.i("TAG", "K  " + totalTime);
+
+                imageView.setImageBitmap(bitmap);
+           }
+        });
         editText = findViewById(R.id.edit_text);
         editText.setFocusable(true);
         editText.requestFocus();
