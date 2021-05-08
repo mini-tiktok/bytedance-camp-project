@@ -43,6 +43,7 @@ public class MediaActivity extends AppCompatActivity {
     private TextView textdate;
     private TextView textuser1;
     private TextView textuser2;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +62,9 @@ public class MediaActivity extends AppCompatActivity {
         textuser1=findViewById(R.id.textView1);
         textdate=findViewById(R.id.textView3);
         textuser2=findViewById(R.id.textView4);
-        textuser1.setText("&#64; "+username);
-        textuser2.setText("视频原声-&#64; "+username);
-        textdate.setText("&#8226;"+updateTime);
+        textuser1.setText("@"+username);
+        textuser2.setText("视频原声@"+username);
+        textdate.setText("·"+updateTime);
         player = new MediaPlayer();
         try {
             player.setDataSource(this,Uri.parse(videoUrl));
@@ -151,6 +152,9 @@ public class MediaActivity extends AppCompatActivity {
         if (player != null) {
             player.stop();
             player.release();
+        }
+        if(handler!=null){
+            handler.removeCallbacks(runnable);
         }
     }
 

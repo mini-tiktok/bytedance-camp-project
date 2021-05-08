@@ -47,7 +47,7 @@ public class HomeCardViewHolder extends RecyclerView.ViewHolder implements View.
         Intent intent = new Intent(v.getContext(), MediaActivity.class);
         intent.putExtra("videoUrl", videoInfo.getVideoUrl());
         intent.putExtra("username",videoInfo.getUsername());
-        String strDateFormat = "yyyy-MM-dd HH:mm:ss";
+        String strDateFormat = "MM月dd日";
         SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
         intent.putExtra("updateTime",sdf.format(new Date(videoInfo.getUpdateTime().getTime())));
         v.getContext().startActivity(intent);
