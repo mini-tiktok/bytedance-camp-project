@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -33,21 +34,36 @@ public class MediaActivity extends AppCompatActivity {
     boolean startPlay;
     private LottieAnimationView heart;
     private ImageView videoPause;
+    private ImageView like;
+    private ImageView likered;
     private SurfaceView surfaceView;
     private MediaPlayer player;
     private SurfaceHolder holder;
     private SeekBar seekBar;
+    private TextView textdate;
+    private TextView textuser1;
+    private TextView textuser2;
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_media);
         String videoUrl=getIntent().getStringExtra("videoUrl");
+        String username=getIntent().getStringExtra("username");
+        String updateTime=getIntent().getStringExtra("updateTime");
         System.out.println("play video: "+videoUrl);
         surfaceView = findViewById(R.id.surfaceView);
         videoPause = findViewById(R.id.imageView);
         videoPause.bringToFront();
         heart = findViewById(R.id.heart);
+        like=findViewById(R.id.like);
+        likered=findViewById(R.id.likered);
+        textuser1=findViewById(R.id.textView1);
+        textdate=findViewById(R.id.textView3);
+        textuser2=findViewById(R.id.textView4);
+        textuser1.setText("&#64; "+username);
+        textuser2.setText("视频原声-&#64; "+username);
+        textdate.setText("&#8226;"+updateTime);
         player = new MediaPlayer();
         try {
             player.setDataSource(this,Uri.parse(videoUrl));
@@ -123,6 +139,8 @@ public class MediaActivity extends AppCompatActivity {
                 if(startPlay) {
                     heart.playAnimation();
                     heart.setVisibility(View.VISIBLE);
+                    like.setVisibility(View.INVISIBLE);
+                    likered.setVisibility(View.VISIBLE);
                 }
             }
         }));
