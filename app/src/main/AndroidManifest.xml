@@ -17,6 +17,9 @@
         android:theme="@style/Theme.BytedanceCampProject">
         <activity android:name=".activity.MediaActivity"
             android:theme="@style/Theme.BytedanceCampProject.NoActionBar"/>
+        <activity android:name=".activity.MediaActivity"></activity>
+        <activity android:name=".activity.VideoActivity" />
+        <activity android:name=".activity.NoteActivity"/>
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/title_activity_main"

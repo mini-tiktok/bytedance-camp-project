@@ -43,6 +43,7 @@ public class CustomCameraActivity extends AppCompatActivity implements SurfaceHo
     private boolean isRecording = false;
 
     private String mp4Path = "";
+    private static final int REQUEST_CODE_ADD = 1002;
 
     private Handler uiHandler = new Handler();
 
@@ -189,11 +190,14 @@ public class CustomCameraActivity extends AppCompatActivity implements SurfaceHo
             mCamera.lock();
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
-
-//            mVideoView.setVisibility(View.VISIBLE);
             mImageView.setVisibility(View.GONE);
             mVideoView.setVideoPath(mp4Path);
             mVideoView.start();
+            startActivityForResult(
+                    new Intent(CustomCameraActivity.this, NoteActivity.class),
+                    REQUEST_CODE_ADD);
+
+//            mVideoView.setVisibility(View.VISIBLE);
         } else {
             if(prepareVideoRecorder()) {
                 mRecordButton.setText("暂停");
