@@ -12,4 +12,7 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="record">录制</string>
+    <string name="confirm">Confirm</string>
+    <string name="upload">Upload</string>
+
 </resources>
