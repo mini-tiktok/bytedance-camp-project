@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.mini_tiktok.bytedance_camp_project.R;
-import com.mini_tiktok.bytedance_camp_project.activity.VideoActivity;
+import com.mini_tiktok.bytedance_camp_project.activity.MediaActivity;
 import com.mini_tiktok.bytedance_camp_project.data.VideoInfo;
 
 import org.w3c.dom.Text;
@@ -44,7 +44,7 @@ public class HomeCardViewHolder extends RecyclerView.ViewHolder implements View.
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(v.getContext(), VideoActivity.class);
+        Intent intent = new Intent(v.getContext(), MediaActivity.class);
         intent.putExtra("videoUrl", videoInfo.getVideoUrl());
         intent.putExtra("username",videoInfo.getUsername());
         String strDateFormat = "yyyy-MM-dd HH:mm:ss";
