@@ -12,4 +12,11 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="record">录制</string>
+    <string name="upload">上传</string>
+    <string name="choose_cover">选择封面</string>
+    <string name="auto">自动生成</string>
+    <string name="manual">手动选择</string>
+    <string name="uploading">上传中</string>
+    <string name="uplaod_success">上传成功</string>
+    <string name="upload_fail">上传失败</string>
 </resources>

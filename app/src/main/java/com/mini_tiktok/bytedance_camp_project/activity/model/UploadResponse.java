@@ -1,10 +1,8 @@
-package com.example.cs175_project.model;
+package com.mini_tiktok.bytedance_camp_project.activity.model;
 
 import com.google.gson.annotations.SerializedName;
 
 public class UploadResponse {
-    @SerializedName("result")
-    public VideoResult videoResult;
     @SerializedName("url")
     public String url;
     @SerializedName("success")
