@@ -77,7 +77,7 @@ public class HomeFragment extends Fragment {
                     videoInfoList = new Gson().fromJson(response.body().get("feeds").getAsJsonArray(),
                             new TypeToken<List<VideoInfo>>(){}.getType());
 //                    System.out.println(videoInfoList.toString());
-//                    videoInfoList=videoInfoList.subList(0,20);
+//                    List<VideoInfo> tmp=videoInfoList.subList(0,20);
                     mSearchAdapter.notifyItems(videoInfoList);
                 } else {
                     Snackbar.make(mRecyclerView, "网络错误，无法接收", Snackbar.LENGTH_LONG)
