@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BytedanceCampProject">
-        <activity android:name=".activity.VideoActivity"/>
+        <activity android:name=".activity.MediaActivity"></activity>
+        <activity android:name=".activity.VideoActivity" />
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/title_activity_main"
