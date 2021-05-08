@@ -77,6 +77,9 @@ public class NoteActivity extends AppCompatActivity {
                 totalTime = mVideoView.getDuration();
                 seekBar.setMax(totalTime);
                 Log.i("TAG", "getDuration  " + totalTime);
+                mVideoView.start();
+                mVideoView.pause();
+                mVideoView.seekTo(currentTime);
             }
         });
         mVideoView.setVideoPath(mp4Path);
@@ -147,10 +150,13 @@ public class NoteActivity extends AppCompatActivity {
                     ActivityCompat.requestPermissions(NoteActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
                 } else {
                     //打开相册
+                    mVideoView.pause();
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                     //Intent.ACTION_GET_CONTENT = "android.intent.action.GET_CONTENT"
                     intent.setType("image/*");
                     startActivityForResult(intent, PICK_PHOTO); // 打开相册
+                    mVideoView.resume();
+                    mVideoView.seekTo(currentTime);
                 }
             }
         });

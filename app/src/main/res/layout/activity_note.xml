@@ -14,7 +14,7 @@
     <EditText
         android:id="@+id/edit_text"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/bg_edit"
         android:gravity="start|top"
         android:padding="4dp"
