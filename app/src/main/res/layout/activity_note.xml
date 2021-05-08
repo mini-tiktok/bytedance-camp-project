@@ -7,10 +7,14 @@
     android:padding="12dp"
     tools:context=".activity.NoteActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/user" />
     <EditText
         android:id="@+id/edit_text"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="60dp"
         android:background="@drawable/bg_edit"
         android:gravity="start|top"
         android:padding="4dp"
@@ -37,6 +41,11 @@
         android:id="@+id/note_seekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/note_choose"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="选择图片"/>
     <Button
         android:id="@+id/btn_add"
         android:layout_width="match_parent"
