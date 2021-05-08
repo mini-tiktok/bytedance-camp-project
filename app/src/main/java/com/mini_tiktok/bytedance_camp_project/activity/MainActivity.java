@@ -1,7 +1,9 @@
 package com.mini_tiktok.bytedance_camp_project.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -13,6 +15,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.mini_tiktok.bytedance_camp_project.R;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private final static int PERMISSION_REQUEST_CODE = 1001;
+    private final static int REQUEST_TAKE_GALLERY_VIDEO = 1002;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +41,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        FloatingActionButton upLoadFab=findViewById(R.id.uploadFab);
+        upLoadFab.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                videoSelect();
+            }
+        });
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
                 customCamera(view);
             }
         });
@@ -113,6 +122,23 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "权限获取失败", Toast.LENGTH_SHORT).show();
         }
     }
-
+    private void videoSelect() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("video/*");
+        startActivityForResult(Intent.createChooser(intent, "Select Video"), REQUEST_TAKE_GALLERY_VIDEO);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_TAKE_GALLERY_VIDEO) {
+                Uri uri = data.getData();
+                System.out.println(uri.toString());
+                Intent intent = new Intent(MainActivity.this, NoteActivity.class);
+                intent.putExtra("path", uri.toString());
+                startActivity(intent);
+            }
+        }
+    }
 
 }
