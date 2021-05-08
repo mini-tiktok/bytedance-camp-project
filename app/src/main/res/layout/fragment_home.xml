@@ -3,15 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
-    android:orientation="vertical"
-    >
+    android:background="#000000"
+    android:orientation="vertical">
+
     <com.mini_tiktok.bytedance_camp_project.view.HomeSearchLayout
         android:id="@+id/HomeSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     </com.mini_tiktok.bytedance_camp_project.view.HomeSearchLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/HomeRecyclerView"
         android:layout_width="match_parent"

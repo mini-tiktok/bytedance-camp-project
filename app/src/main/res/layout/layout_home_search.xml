@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="6dp"
-        android:background="#10000000"
+        android:background="#FFFFFF"
         android:gravity="center_vertical"
         android:padding="6dp">
 
@@ -25,7 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:background="@null"
-            android:hint="请输入内容" />
+            android:hint="请输入内容"
+            />
 
     </LinearLayout>
 

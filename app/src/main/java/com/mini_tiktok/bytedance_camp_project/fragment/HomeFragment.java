@@ -34,7 +34,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeFragment extends Fragment {
 
-    private static final String TAG = "SearchActivity";
+    private static final String TAG = "HomeFragment";
     private RecyclerView mRecyclerView;
     private HomeSearchAdapter mSearchAdapter = new HomeSearchAdapter();
     private HomeSearchLayout mSearchLayout;
@@ -77,6 +77,7 @@ public class HomeFragment extends Fragment {
                     videoInfoList = new Gson().fromJson(response.body().get("feeds").getAsJsonArray(),
                             new TypeToken<List<VideoInfo>>(){}.getType());
 //                    System.out.println(videoInfoList.toString());
+//                    videoInfoList=videoInfoList.subList(0,20);
                     mSearchAdapter.notifyItems(videoInfoList);
                 } else {
                     Snackbar.make(mRecyclerView, "网络错误，无法接收", Snackbar.LENGTH_LONG)

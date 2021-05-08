@@ -1,5 +1,26 @@
-<vector android:alpha="0.9" android:height="100dp"
-    android:tint="?attr/colorControlNormal" android:viewportHeight="24"
-    android:viewportWidth="24" android:width="100dp" xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="@android:color/white" android:pathData="M9,16h2L11,8L9,8v8zM12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zM12,20c-4.41,0 -8,-3.59 -8,-8s3.59,-8 8,-8 8,3.59 8,8 -3.59,8 -8,8zM13,16h2L15,8h-2v8z"/>
-</vector>
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:left="1dp">
+        <shape android:shape="oval">
+            <size
+                android:width="20dp"
+                android:height="20dp"
+                />
+            <stroke
+                android:width="1dp"
+                android:color="@color/cardview_light_background"
+                />
+        </shape>
+    </item>
+    <item android:left="5dp" android:top="5dp" android:right="5dp" android:bottom="5dp">
+        <vector
+            android:width="24dp"
+            android:height="24dp"
+            android:viewportWidth="24.0"
+            android:viewportHeight="24.0">
+            <path
+                android:fillColor="@color/cardview_light_background"
+                android:pathData="M8,5v14l11,-7z"/>
+        </vector>
+    </item>
+</layer-list>
