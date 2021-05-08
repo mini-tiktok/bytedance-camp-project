@@ -193,9 +193,9 @@ public class CustomCameraActivity extends AppCompatActivity implements SurfaceHo
             mImageView.setVisibility(View.GONE);
             mVideoView.setVideoPath(mp4Path);
             mVideoView.start();
-            startActivityForResult(
-                    new Intent(CustomCameraActivity.this, NoteActivity.class),
-                    REQUEST_CODE_ADD);
+            Intent intent = new Intent(CustomCameraActivity.this, NoteActivity.class);
+            intent.putExtra("path", mp4Path);
+            startActivity(intent);
 
 //            mVideoView.setVisibility(View.VISIBLE);
         } else {
