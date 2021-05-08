@@ -24,35 +24,32 @@ public class HomeCardViewHolder extends RecyclerView.ViewHolder implements View.
     private TextView mAuthorName;
     private ImageView mVideoImage;
     private TextView mVideoPlayNum;
-    private TextView mVideoDuration;
-    private String videoUrl;
+    private VideoInfo videoInfo;
 
     public HomeCardViewHolder(@NonNull View itemView) {
         super(itemView);
         mAuthorName = itemView.findViewById(R.id.VideoAuthor);
         mVideoImage=itemView.findViewById(R.id.VideoImage);
         mVideoPlayNum=itemView.findViewById(R.id.VideoPlayNum);
-        mVideoDuration=itemView.findViewById(R.id.VideoDuration);
         itemView.setOnClickListener(this);
     }
 
     public void bind(VideoInfo videoInfo) {
-        videoUrl=videoInfo.getVideoUrl();
+        this.videoInfo=videoInfo;
         mAuthorName.setText(videoInfo.getUsername());
         mVideoPlayNum.setText(String.valueOf((int)(Math.random()*1000)));
-        String videoDuration=String.valueOf((int)(Math.random()*50)+10)+":"+String.valueOf((int)(Math.random()*50)+10);
-        mVideoDuration.setText(videoDuration);
-//        Date date = new Date(videoInfo.getUpdateTime().getTime());
-//        String strDateFormat = "yyyy-MM-dd HH:mm:ss";
-//        SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
-//        mUpdateTime.setText(sdf.format(date));
+
         Glide.with(mVideoImage).load(videoInfo.getImageUrl()).into(mVideoImage);
     }
 
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(v.getContext(), VideoActivity.class);
-        intent.putExtra("videoUrl", videoUrl);
+        intent.putExtra("videoUrl", videoInfo.getVideoUrl());
+        intent.putExtra("username",videoInfo.getUsername());
+        String strDateFormat = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(strDateFormat);
+        intent.putExtra("updateTime",sdf.format(new Date(videoInfo.getUpdateTime().getTime())));
         v.getContext().startActivity(intent);
     }
 }
