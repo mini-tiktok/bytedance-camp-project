@@ -104,13 +104,16 @@ public class NoteActivity extends AppCompatActivity {
                 totalTime = mVideoView.getDuration();
                 seekBar.setMax(totalTime);
                 Log.i("TAG", "getDuration  " + totalTime);
+                mVideoView.start();
+                mVideoView.pause();
+                mVideoView.seekTo(currentTime);
             }
         });
         mVideoView.setVideoPath(mp4Path);
         mVideoView.start();
         System.out.println(mp4Path);
         mMetadataRetriever = new MediaMetadataRetriever();
-        mMetadataRetriever.setDataSource(mp4Path);
+        mMetadataRetriever.setDataSource(this, Uri.parse(mp4Path));
         String duration = mMetadataRetriever.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_DURATION);//时长(毫秒)
         String width = mMetadataRetriever.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH);//宽
         String height = mMetadataRetriever.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT);//高
@@ -161,38 +164,38 @@ public class NoteActivity extends AppCompatActivity {
                 CharSequence content = editText.getText();
                 Uri mVideoUri=Uri.parse(mp4Path);
                 System.out.println(mVideoUri.toString());
-//                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//                byte[] coverImageData = stream.toByteArray();
-//                RequestBody requestImage = RequestBody.create(MediaType.parse("multipart/form-data"), coverImageData);
-//                MultipartBody.Part coverImage = MultipartBody.Part.createFormData("cover_image", "cover.png", requestImage);
-//
-//                RequestBody requestVideo = RequestBody.create(MediaType.parse("multipart/form-data"), mVideoUri.toString());
-//                MultipartBody.Part video = MultipartBody.Part.createFormData("video", "video.mp4", requestVideo);
-//                Call<UploadResponse> call = retrofit.create(VideoService.class).uploadVideo(Constant.STUDENT_ID, Constant.USER_NAME,
-//                        content.toString(), coverImage, video);
-//                call.enqueue(new Callback<UploadResponse>() {
-//                    @Override
-//                    public void onResponse(Call<UploadResponse> call, Response<UploadResponse> response) {
-//                        if (response.isSuccessful()) {
-//                            Log.d(TAG,"fetch video success");
-//                            Toast.makeText(getApplicationContext(),"上传成功",Toast.LENGTH_SHORT).show();
-//                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//                            getApplicationContext().startActivity(intent);
-//                        } else {
-//                            Snackbar.make(imageView, "网络错误，无法接收", Snackbar.LENGTH_LONG)
-//                                    .setAction("Action", null).show();
-//                            Log.e(TAG,"fetch video failed");
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<UploadResponse> call, Throwable t) {
-//                        Snackbar.make(imageView, "网络错误，无法接收", Snackbar.LENGTH_LONG)
-//                                .setAction("Action", null).show();
-//                        Log.e(TAG,"fetch video failed");
-//                    }
-//                });
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] coverImageData = stream.toByteArray();
+                RequestBody requestImage = RequestBody.create(MediaType.parse("multipart/form-data"), coverImageData);
+                MultipartBody.Part coverImage = MultipartBody.Part.createFormData("cover_image", "cover.png", requestImage);
+
+                RequestBody requestVideo = RequestBody.create(MediaType.parse("multipart/form-data"), mVideoUri.toString());
+                MultipartBody.Part video = MultipartBody.Part.createFormData("video", "video.mp4", requestVideo);
+                Call<UploadResponse> call = retrofit.create(VideoService.class).submitVideo(Constant.STUDENT_ID, Constant.USER_NAME,
+                        content.toString(), coverImage, video);
+                call.enqueue(new Callback<UploadResponse>() {
+                    @Override
+                    public void onResponse(Call<UploadResponse> call, Response<UploadResponse> response) {
+                        if (response.isSuccessful()) {
+                            Log.d(TAG,"fetch video success");
+                            Toast.makeText(getApplicationContext(),"上传成功",Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            getApplicationContext().startActivity(intent);
+                        } else {
+                            Snackbar.make(imageView, "网络错误，无法接收", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                            Log.e(TAG,"fetch video failed");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UploadResponse> call, Throwable t) {
+                        Snackbar.make(imageView, "网络错误，无法接收", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        Log.e(TAG,"fetch video failed");
+                    }
+                });
             }
         });
 

@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private HomeSearchAdapter mSearchAdapter = new HomeSearchAdapter();
     private HomeSearchLayout mSearchLayout;
-    private List<VideoInfo>videoInfoList;
+    private List<VideoInfo>videoInfoList=new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

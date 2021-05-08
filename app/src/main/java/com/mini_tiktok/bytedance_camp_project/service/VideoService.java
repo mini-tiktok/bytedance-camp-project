@@ -20,7 +20,7 @@ public interface VideoService {
 
     @Multipart
     @POST("video")
-    Call<UploadResponse> uploadVideo(@Query("student_id") String studentId,
+    Call<UploadResponse> submitVideo(@Query("student_id") String studentId,
                                      @Query("user_name") String userName,
                                      @Query("extra_value") String extraValue,
                                      @Part MultipartBody.Part coverImage,
