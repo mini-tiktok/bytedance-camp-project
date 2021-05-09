@@ -142,7 +142,7 @@ public class NoteActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 isTouch = false;
                 //获取第一帧图像的bitmap对象 单位是微秒
-                Bitmap bitmap = mMetadataRetriever.getFrameAtTime(currentTime * 1000 ,OPTION_CLOSEST_SYNC);
+                bitmap = mMetadataRetriever.getFrameAtTime(currentTime * 1000 ,OPTION_CLOSEST_SYNC);
                 Log.i("TAG", "K  " + totalTime);
 
                 imageView.setImageBitmap(bitmap);
@@ -181,6 +181,7 @@ public class NoteActivity extends AppCompatActivity {
                             Log.d(TAG,"fetch video success");
                             Toast.makeText(getApplicationContext(),"上传成功",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             getApplicationContext().startActivity(intent);
                         } else {
                             Snackbar.make(imageView, "网络错误，无法接收", Snackbar.LENGTH_LONG)
@@ -295,7 +296,7 @@ public class NoteActivity extends AppCompatActivity {
 
     private void displayImage(String imagePath) {
         if (imagePath != null) {
-            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            bitmap = BitmapFactory.decodeFile(imagePath);
             imageView.setImageBitmap(bitmap);
         } else {
             Toast.makeText(this, "获取相册图片失败", Toast.LENGTH_SHORT).show();
