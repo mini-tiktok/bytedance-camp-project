@@ -1,2 +1,11 @@
-# bytedance-camp-project
-project for bytedance-android-camp-sjtu
+# 2020 SJTU-Bytedance Android Camp
+
+## 队员列表
+
+| 姓名 | 学号 |
+| ---- | ---- |
+| 解煚焱 |518021911249|
+|倪祯旸 |518021910834|
+|白忱枫 |518021910850|
+|杨弈骋 |518021910838|
+
