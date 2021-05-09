@@ -25,7 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:background="@null"
-            android:hint="请输入内容"
+            android:hint="搜索作者"
+            android:textColor="@color/black"
             />
 
     </LinearLayout>

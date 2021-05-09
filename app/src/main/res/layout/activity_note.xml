@@ -10,12 +10,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/user" />
+        android:text="留言：" />
     <EditText
         android:id="@+id/edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_edit"
+        android:layout_marginBottom="10dp"
+        android:background="@color/white"
         android:gravity="start|top"
         android:padding="4dp"
         android:text="@string/nav_header_title"
@@ -51,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="20dp"
-        android:text="@string/confirm" />
+        android:text="上传视频" />
 
 
 </LinearLayout>

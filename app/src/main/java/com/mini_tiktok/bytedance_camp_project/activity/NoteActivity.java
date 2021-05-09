@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -38,7 +39,26 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.mini_tiktok.bytedance_camp_project.R;
+import com.mini_tiktok.bytedance_camp_project.data.UploadResponse;
+import com.mini_tiktok.bytedance_camp_project.data.VideoInfo;
+import com.mini_tiktok.bytedance_camp_project.service.VideoService;
+import com.mini_tiktok.bytedance_camp_project.util.Constant;
+
+import java.io.ByteArrayOutputStream;
+import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.media.MediaMetadataRetriever.OPTION_CLOSEST_SYNC;
 import static android.media.MediaMetadataRetriever.OPTION_PREVIOUS_SYNC;
@@ -56,6 +76,8 @@ public class NoteActivity extends AppCompatActivity {
     private SeekBar seekBar;
     private boolean isTouch = false;
     private int totalTime = 0;
+    private Bitmap bitmap;
+    private static final String TAG = "NoteActivity";
     private int currentTime = 0;
 
 
@@ -66,6 +88,11 @@ public class NoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
         setTitle(R.string.upload);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constant.BYTEDANCE_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
         Intent intent = getIntent();
         mp4Path = intent.getStringExtra("path");
@@ -84,13 +111,13 @@ public class NoteActivity extends AppCompatActivity {
         });
         mVideoView.setVideoPath(mp4Path);
         mVideoView.start();
-
+        System.out.println(mp4Path);
         mMetadataRetriever = new MediaMetadataRetriever();
-        mMetadataRetriever.setDataSource(mp4Path);
+        mMetadataRetriever.setDataSource(this, Uri.parse(mp4Path));
         String duration = mMetadataRetriever.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_DURATION);//时长(毫秒)
         String width = mMetadataRetriever.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH);//宽
         String height = mMetadataRetriever.extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT);//高
-        Bitmap bitmap = mMetadataRetriever.getFrameAtTime(0);
+        bitmap = mMetadataRetriever.getFrameAtTime(0);
 
         imageView = findViewById(R.id.note_image);
         imageView.setImageBitmap(bitmap);
@@ -135,8 +162,40 @@ public class NoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 CharSequence content = editText.getText();
-                Snackbar.make(view, "Replace with your own action" + mp4Path, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Uri mVideoUri=Uri.parse(mp4Path);
+                System.out.println(mVideoUri.toString());
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] coverImageData = stream.toByteArray();
+                RequestBody requestImage = RequestBody.create(MediaType.parse("multipart/form-data"), coverImageData);
+                MultipartBody.Part coverImage = MultipartBody.Part.createFormData("cover_image", "cover.png", requestImage);
+
+                RequestBody requestVideo = RequestBody.create(MediaType.parse("multipart/form-data"), mVideoUri.toString());
+                MultipartBody.Part video = MultipartBody.Part.createFormData("video", "video.mp4", requestVideo);
+                Call<UploadResponse> call = retrofit.create(VideoService.class).submitVideo(Constant.STUDENT_ID, Constant.USER_NAME,
+                        content.toString(), coverImage, video);
+                call.enqueue(new Callback<UploadResponse>() {
+                    @Override
+                    public void onResponse(Call<UploadResponse> call, Response<UploadResponse> response) {
+                        if (response.isSuccessful()) {
+                            Log.d(TAG,"fetch video success");
+                            Toast.makeText(getApplicationContext(),"上传成功",Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            getApplicationContext().startActivity(intent);
+                        } else {
+                            Snackbar.make(imageView, "网络错误，无法接收", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                            Log.e(TAG,"fetch video failed");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UploadResponse> call, Throwable t) {
+                        Snackbar.make(imageView, "网络错误，无法接收", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        Log.e(TAG,"fetch video failed");
+                    }
+                });
             }
         });
 

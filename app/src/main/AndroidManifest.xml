@@ -15,9 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BytedanceCampProject">
-        <activity android:name=".activity.MediaActivity"
-            android:theme="@style/Theme.BytedanceCampProject.NoActionBar"/>
-        <activity android:name=".activity.NoteActivity"/>
+        <activity
+            android:name=".activity.MediaActivity"
+            android:theme="@style/Theme.BytedanceCampProject.NoActionBar" />
+        <activity android:name=".activity.NoteActivity" />
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/title_activity_main"
@@ -31,7 +32,7 @@
         <activity
             android:name=".activity.CustomCameraActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.BytedanceCampProject.NoActionBar"/>
+            android:theme="@style/Theme.BytedanceCampProject.NoActionBar" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
